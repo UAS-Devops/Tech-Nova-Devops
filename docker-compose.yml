@@ -1,5 +1,5 @@
 # docker-compose.yml
-# Docker Compose file for monitoring stack with Prometheus, Alertmanager, Loki, Promtail,
+# Docker Compose file for monitoring stack with Prometheus, Alertmanager, Loki, Promtail, and Grafana
 services:
   prometheus:
     image: prom/prometheus:v2.47.0
