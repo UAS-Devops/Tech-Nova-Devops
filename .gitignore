@@ -1,0 +1,46 @@
+# .dockerignore
+# File ini memberitahu Docker file dan folder mana yang harus diabaikan saat membangun image.
+# Ini penting untuk menjaga image tetap kecil, aman, dan mencegah error build.
+
+#== Ketergantungan & Cache ==#
+# Abaikan folder dependensi lokal. Ini adalah langkah paling penting
+# untuk mencegah error 'Exec format error' saat build di arsitektur yang berbeda.
+node_modules/
+
+# Abaikan cache dari berbagai tools.
+.npm
+.eslintcache
+.stylelintcache
+
+#== Log & Laporan Diagnostik ==#
+# Abaikan semua file log.
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+#== Data Proyek Lokal ==#
+# Abaikan file database lokal, karena akan dibuat di dalam image atau di-mount sebagai volume.
+app.db
+app.db-journal
+
+# Abaikan file environment lokal. Gunakan secrets di CI/CD.
+.env
+.env.*
+!.env.example
+
+#== Laporan Build & Testing ==#
+# Abaikan folder dan file hasil testing dan build.
+coverage/
+build/
+*.lcov
+.nyc_output
+
+#== File Sistem Operasi & IDE ==#
+# Abaikan file yang dibuat oleh sistem operasi atau editor kode.
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
