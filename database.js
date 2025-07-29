@@ -34,7 +34,7 @@ db.serialize(() => {
                         if (err) {
                             return console.error('Error saat insert admin:', err.message);
                         }
-                        console.log('Pengguna admin default telah dibuat.');
+                        console.log('User admin default telah dibuat.');
                     });
                 });
             }
