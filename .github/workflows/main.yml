@@ -2,7 +2,7 @@ name: CI/CD Pipeline DevOps
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "KEY-26-buat-manifes-kubernetes-deployment-service-hpa-untuk-deployment" ]
 
 jobs:
   test_and_analyze:
