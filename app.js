@@ -1,3 +1,4 @@
+// App Login JS 
 // --- Impor Modul ---
 const express = require('express');
 const session = require('express-session');
@@ -26,26 +27,26 @@ const httpRequestDurationMicroseconds = new client.Histogram({
     name: 'http_request_duration_seconds',
     help: 'Duration of HTTP requests in seconds',
     labelNames: ['method', 'route', 'code'],
-    buckets: [0.1, 0.5, 1, 1.5] 
+    buckets: [0.1, 0.5, 1, 1.5]
 });
 register.registerMetric(httpRequestDurationMicroseconds);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-    secret: 'key-devops-project', 
+    secret: 'key-devops-project',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false, maxAge: 3600000 } 
+    cookie: { secure: false, maxAge: 3600000 }
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-  const end = httpRequestDurationMicroseconds.startTimer();
-  res.on('finish', () => {
-    end({ route: req.route ? req.route.path : req.path, code: res.statusCode, method: req.method });
-  });
-  next();
+    const end = httpRequestDurationMicroseconds.startTimer();
+    res.on('finish', () => {
+        end({ route: req.route ? req.route.path : req.path, code: res.statusCode, method: req.method });
+    });
+    next();
 });
 
 app.get('/metrics', async (req, res) => {
@@ -78,7 +79,7 @@ app.post('/login', (req, res) => {
             return res.status(500).json({ success: false, message: 'Server error.' });
         }
         if (!user) {
-            loginCounter.inc({ status: 'error' }); 
+            loginCounter.inc({ status: 'error' });
             console.warn(`Login gagal untuk user: ${username}`); // LOG GAGAL
             return res.status(401).json({ success: false, message: 'Username atau password salah.' });
         }
@@ -86,9 +87,9 @@ app.post('/login', (req, res) => {
             if (result) {
                 req.session.isLoggedIn = true;
                 req.session.username = username;
-                loginCounter.inc({ status: 'success' }); 
+                loginCounter.inc({ status: 'success' });
                 console.log(`Login berhasil untuk user: ${username}`); // LOG SUKSES
-                res.status(200).json({ success: true, message: 'Login berhasil! Mengarahkan...' });
+                res.status(200).json({ success: true, message: 'Login berhasil! Segera Mengarahkan...' });
             } else {
                 loginCounter.inc({ status: 'error' });
                 console.warn(`Login gagal (password salah) untuk user: ${username}`); // LOG GAGAL
@@ -102,7 +103,7 @@ app.get('/dashboard', (req, res) => {
     if (req.session && req.session.isLoggedIn) {
         res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
     } else {
-        res.redirect('/'); 
+        res.redirect('/');
     }
 });
 
